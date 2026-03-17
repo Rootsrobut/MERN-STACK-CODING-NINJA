@@ -1,0 +1,14 @@
+
+
+#sample-para{
+    font-size: 30px;
+    color: rebeccapurple;
+    font-weight: normal;
+    text-align: justify;
+    line-height: 40px;
+    word-break: break-all;
+    text-transform: unset;
+    text-decoration: underline; 
+}
+
+

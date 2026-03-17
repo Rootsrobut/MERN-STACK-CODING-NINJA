@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Polyfill for bind method</h1>
+    <script>
+
+      let name={
+        firstname:'Sumit',
+        lastname:'kumar'
+      }  
+
+      let printName=function(hometown,state,country){
+        console.log(this.firstname+' '+this.lastname+' '+this.hometown+' '+this.state+' '+this.country);
+      }
+
+      Function.prototype.mybind = function (...args1) {
+        if (typeof this !== "function") {
+          throw new TypeError("mybind must be called on a function");
+        }
+        const originalFunc = this;
+        let params=args.slice(1);
+        return function (...args2) {
+          return originalFunc.apply(args[0],[params,...args2]);
+        };
+      };
+
+      let printMyName2=printName.mybind(name,'Begusari');
+      printMyName2('Bihar');
+    </script>
+  </body>
+</html>

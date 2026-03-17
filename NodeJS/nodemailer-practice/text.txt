@@ -1,0 +1,8 @@
+ How to Send Bulk Emails with Nodemailer
+
+
+ Method	Use Case
+ 
+🔁 Loop through recipients	   Personalized bulk emails
+📩 BCC multiple addresses	   Same email to all (not personalized)
+

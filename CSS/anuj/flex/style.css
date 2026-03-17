@@ -1,0 +1,18 @@
+.container{
+    width:100vw;
+    border: 2px solid rgb(169, 8, 8);
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
+    gap: 10px;
+    grid-column: 58px;
+    justify-content: center;
+    align-items: center;
+    align-content: space-around;
+}
+.container div{
+    border: 2px solid rgb(23, 165, 7);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: brown;
+}

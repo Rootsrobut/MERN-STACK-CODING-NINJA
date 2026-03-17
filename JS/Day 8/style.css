@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+body{
+    margin: 20px;
+    border: 2px solid red;
+}
+/* [procodrr]{
+    color: #c0114c;
+}
+[procodrr="sumit@kumar"]{
+    color: #f1e7f2;
+}
+[procodrr="sumit"]{
+    color: #2511c0;
+}
+[class]{
+    color: #f1e7f2;
+}
+#heading{
+    color: black;
+} */

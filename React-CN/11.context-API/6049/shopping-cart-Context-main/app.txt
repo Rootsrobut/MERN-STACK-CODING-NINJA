@@ -1,0 +1,16 @@
+context Api
+1.create  createContex()
+2.provide <Context.provider value={{}}></Context.provider>
+3.consume useContext
+
+
+                index.js
+             
+                  app.js
+
+
+    Navbar.jsx              Items.jsx
+                 
+                          ItemCard.jsx 
+
+

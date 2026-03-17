@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lecture Debouncing in Javascript</title>
+  </head>
+  <body>
+    <h1>Lecture Debouncing in Javascript</h1>
+    <script>
+      let counter = 0;
+      function getData() {
+        console.log("Fetching Data...", ++counter);
+      }
+      // Debounce function
+      function debounce(func, delay) {
+        let timer;
+        return function (...args) {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            func.apply(this, args);
+          }, delay);
+        };
+      }
+      const debouncedGetData = debounce(getData, 500);
+    </script>
+    <input
+      type="text"
+      onkeyup="debouncedGetData()"
+      placeholder="write is here..."
+    />
+  </body>
+</html>

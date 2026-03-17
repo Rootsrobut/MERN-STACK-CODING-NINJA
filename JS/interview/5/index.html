@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Delegation in JavaScript</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+      #myList {
+        list-style-type: none;
+        padding: 0;
+        max-width: 300px;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      #myList li {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      #myList li:hover {
+        background-color: #e0f7fa; 
+      }
+
+      #myList li:last-child {
+        border-bottom: none; 
+      }
+
+      div {
+        max-width: 300px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lecture: Event Delegation in JavaScript</h1>
+    <ul id="myList">
+      <li id="Apple">Apple</li>
+      <li id="Banana">Banana</li>
+      <li id="Cherry">Cherry</li>
+    </ul>
+    <div id="form">
+      <input type="text" id="name" placeholder="Enter your name" data-uppercase/>
+      <input type="text" id="pan" placeholder="Enter your PAN"  data-uppercase />
+      <input type="number" id="mob" placeholder="Enter your mobile number"  />
+    </div>
+    <script src="./index.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Lecture Throttling in Javascript</h1>
+    <button
+      id="throttleButton"
+      style="color: blue; background-color: rgb(216, 213, 13)"
+    >
+      Click Me!
+    </button>
+    <script>
+      const handleClick = () => {
+        console.log("Button clicked!");
+      };
+      function throttle(func, limit) {
+        let flag = true;
+        return function () {
+          const context = this;
+          const args = arguments;
+          if (flag) {
+            func.apply(context, args);
+            flag = false;
+            setTimeout(() => {
+              flag = true;
+            }, limit);
+          }
+        };
+      }
+      const button = document.getElementById("throttleButton");
+      const throttledClick = throttle(handleClick, 1000);
+      button.addEventListener("click", throttledClick);
+    </script>
+  </body>
+</html>

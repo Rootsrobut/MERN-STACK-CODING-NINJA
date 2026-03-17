@@ -1,0 +1,169 @@
+npm i @langchain/pinecone @langchain/core @pinecone-database/pinecone @langchain/community @google/genai @langchain/google-genai @langchain/textsplitters dotenv pdf-parse readline-sync
+
+
+
+
+Step0: Get Gemini API key and Pinecone API
+
+GEMINI_API_KEY=AIzaSyCrghVulwaPO0xJSPLAetCLN_FlGunvw6g
+PINECONE_API_KEY= pcsk_ep4SA_AnAbYzdUFMS35YqnoTy2jsLGkThsEiqfLxXqR7FUAXTgj5dSWEentk93FyLjfLR
+PINECONE_ENVIRONMENT= us-east-1
+PINECONE_INDEX_NAME= rohitnegi9
+​
+import * as dotenv from 'dotenv';
+dotenv.config();
+​
+Step 1: Load the PDF file
+
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
+
+const PDF_PATH = './dsa.pdf';
+const pdfLoader = new PDFLoader(PDF_PATH);
+const rawDocs = await pdfLoader.load();
+​
+console.log(JSON.stringify(rawDocs, null, 2));
+console.log(rawDocs.length)
+​
+Step 2: Create the chunk of the PDF
+
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
+
+const textSplitter = new RecursiveCharacterTextSplitter({
+    chunkSize: CHUNK_SIZE,
+    chunkOverlap: CHUNK_OVERLAP,
+  });
+const chunkedDocs = await textSplitter.splitDocuments(rawDocs);
+​
+console.log(JSON.stringify(chunkedDocs.slice(0, 2), null, 2));
+​
+Step 3: Initializing the Embedding model
+
+import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
+
+const embeddings = new GoogleGenerativeAIEmbeddings({
+    apiKey: process.env.GEMINI_API_KEY,
+    model: 'text-embedding-004',
+  });
+​
+Step4:  Initialize Pinecone Client
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pinecone = new Pinecone();
+const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX_NAME);
+​
+Step 5: Embed Chunks and Upload to Pinecone
+
+import { PineconeStore } from '@langchain/pinecone';
+
+await PineconeStore.fromDocuments(chunkedDocs, embeddings, {
+    pineconeIndex,
+    maxConcurrency: 5,
+  });
+​
+Phase 2: Query Resolving phase
+
+
+Step0: Take the user Input from terminal
+import readlineSync from 'readline-sync';
+
+async function main(){
+   const userProblem = readlineSync.question("Ask me anything--> ");
+   await chatting(userProblem);
+   main();
+}
+
+
+main();
+​
+Step 1: Convert the user query into embedding(vector)
+
+
+import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
+
+const embeddings = new GoogleGenerativeAIEmbeddings({
+    apiKey: process.env.GEMINI_API_KEY,
+    model: 'text-embedding-004',
+    });
+ 
+ const queryVector = await embeddings.embedQuery(question);   
+​
+Step 2: Search Relevant document into vector DB
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pinecone = new Pinecone();
+const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX_NAME);
+
+const searchResults = await pineconeIndex.query({
+    topK: 10,
+    vector: queryVector,
+    includeMetadata: true,
+    });
+    
+    
+const context = searchResults.matches
+                   .map(match => match.metadata.text)
+                   .join("\n\n---\n\n");
+​
+Step 3: Query + Context to LLM
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({});
+const History = []
+
+History.push({
+    role:'user',
+    parts:[{text:question}]
+    })              
+
+
+
+    const response = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: History,
+    config: {
+      systemInstruction: `You have to behave like a Data Structure and Algorithm Expert.
+    You will be given a context of relevant information and a user question.
+    Your task is to answer the user's question based ONLY on the provided context.
+    If the answer is not in the context, you must say "I could not find the answer in the provided document."
+    Keep your answers clear, concise, and educational.
+      
+      Context: ${context}
+      `,
+    },
+   });
+
+
+   History.push({
+    role:'model',
+    parts:[{text:response.text}]
+  })
+
+  console.log("\n");
+  console.log(response.text);
+​
+How to Enhance our user Query
+async function transformQuery(question){
+
+History.push({
+    role:'user',
+    parts:[{text:question}]
+    })  
+
+const response = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: History,
+    config: {
+      systemInstruction: `You are a query rewriting expert. Based on the provided chat history, rephrase the "Follow Up user Question" into a complete, standalone question that can be understood without the chat history.
+    Only output the rewritten question and nothing else.
+      `,
+    },
+ });
+ 
+ History.pop()
+ 
+ return response.text
+
+
+}

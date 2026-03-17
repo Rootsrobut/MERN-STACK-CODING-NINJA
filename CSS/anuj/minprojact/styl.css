@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: Arial, sans-serif;
+}
+.outer-box{
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to top left,lightgreen,rgb(0, 72, 255))
+}
+.inner-box{
+    width: 400px;
+    margin: 0 auto;
+    padding: relative;
+    text-align: center;
+    top:40%;
+    transform: translateY(50%);
+    padding: 20px 40px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgb(165, 32, 218);
+    z-index: 2;
+}
+.signup-header h1{
+    font-size: 2.5rem;
+    color: rgb(35, 34, 34);
+}
+.signup-header{
+    font-size: 0.9rem;
+    color: #555;
+}
+.signup-body{
+    margin: 20px 0;
+}
+.signup-body p{
+    margin: 10px 0;
+}
+.signup-body p label{
+    display: block;
+    font-weight: bold;
+}
+.signup-body p input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #cccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-top: 4px;
+}
+.signup-body p input[type="submit"]{
+    background-color: #34db3c;
+    border: none;
+    color: white;
+}
+.signup-body p input[type="submit"]:hover{
+    background-color: red;
+}
+.sighup-footer p{
+    color: #5555;
+    text-align: center;
+}
+.sighup-footer p a{
+    color: goldenrod;
+}
+.circle{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    background: linear-gradient(to top right,#ffffff33,#ffffff);
+}
+.c1{
+    position: absolute;
+    top: 70px;
+    left: 40px;
+}
+.c2{
+    position: absolute;
+  bottom: 70px;
+  left: 75%;
+}
